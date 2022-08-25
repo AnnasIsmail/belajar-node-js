@@ -1,1 +1,6 @@
-console.log('node js ku');
+
+function printConsole(){
+    console.log('node js ku');
+}
+
+module.exports = printConsole;
