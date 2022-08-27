@@ -1,0 +1,23 @@
+{
+  "name": "belajar-node-js",
+  "version": "1.0.0",
+  "description": "Belajar Node Js Mulai Tanggal 25 Agustus 2022",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnnasIsmail/belajar-node-js.git"
+  },
+  "author": "Annas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AnnasIsmail/belajar-node-js/issues"
+  },
+  "homepage": "https://github.com/AnnasIsmail/belajar-node-js#readme",
+  "dependencies": {
+    "validator": "^13.7.0"
+  }
+}
