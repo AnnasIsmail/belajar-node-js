@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="row">
+        <div class="cold-md-8 mt-4">
+            <h2>Daftar Contact</h2>
+            
+            <a href="/contact/add" class="btn btn-primary" >Tambah Contact</a>
+
+            <table class="table mt-4">
+                <thead>
+                  <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">No HP</th>
+                    <th scope="col">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% contacts.forEach(function(element , index) { %>
+                    <tr>
+                      <th scope="row"><%= index+1 %> </th>
+                      <td><%= element.nama %> </td>
+                      <td><%= element.notelp %> </td>
+                      <td>
+                          <a href="/contact/<%= element.nama %>" class="btn btn-success badge rounded-pill" ><i class="bi bi-info-circle"></i> Detail</a>
+                      </td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
