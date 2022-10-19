@@ -9,7 +9,7 @@ app.set('view engine', 'ejs');
 app.use(expressLayouts);
 app.use(express.static('public'));
 app.use(morgan('dev'));
-app.use(express.urlencoded());
+app.use(express.urlencoded({extended: true}));
 
 app.use((req, res, next)=> {
     console.log(`Time: ${Date.now()}`);
@@ -42,7 +42,20 @@ app.get('/about', (req, res) => {
   });
 
   app.post('/contact', (req, res) => {
-    addContact(req.body);
+
+    const contacts = loadContact();
+    const duplicate = contacts.find(data => data.email === req.body.email);
+    
+    if(duplicate){
+      res.render('add-contact', {
+        title: 'Contact',
+        layout: 'layouts/main-layout',
+        error: 'Email Sudah Digunakan!'
+    });
+    }else{
+      addContact(req.body);
+      res.redirect('/contact');
+    }
 });
 
   app.get('/contact/add', (req, res) => {
@@ -50,6 +63,7 @@ app.get('/about', (req, res) => {
     res.render('add-contact', {
         title: 'Contact',
         layout: 'layouts/main-layout',
+        error: false
     });
   })
 
@@ -58,10 +72,10 @@ app.get('/about', (req, res) => {
     const contacts = loadContact();
     const contact = contacts.find(data => data.nama === req.params.nama);
 
-    if(contact === undefined){
-        res.send("<h1>Nama Tidak Terdaftar</h1>");
-        return false;
-    }
+    // if(contact === undefined){
+    //     res.send("<h1>Nama Tidak Terdaftar</h1>");
+    //     return false;
+    // }
 
     res.render('detail-contact', {
         title: 'Contact',
