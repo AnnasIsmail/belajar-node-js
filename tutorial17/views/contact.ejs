@@ -5,6 +5,18 @@
             
             <a href="/contact/add" class="btn btn-primary" >Tambah Contact</a>
 
+            <% if (msg.length !== 0) { %>
+              <div class="alert alert-success mt-3" role="alert">
+                <%= msg %> 
+              </div>
+            <% } %>
+
+            <% if (msgInfo.length !== 0) { %>
+              <div class="alert alert-info mt-3" role="alert">
+                <%= msgInfo %> 
+              </div>
+            <% } %>
+
             <table class="table mt-4">
                 <thead>
                   <tr>

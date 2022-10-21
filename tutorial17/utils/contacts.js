@@ -37,19 +37,16 @@ const addContact = (params) => {
 
 
     arrayFile = [];
-    fs.readFile(contactPath, 'utf-8', (err , data) => {
-        if (err){ throw err};
-        arrayFile = JSON.parse(data);
-        objectToPush = {
-            nama: params.name, email: params.email, notelp: params.nohp
-        }
-        console.log(objectToPush)
-        arrayFile.push(objectToPush);
-
-        fs.writeFileSync(contactPath, JSON.stringify(arrayFile));
-
-        console.log(`Terima Kasih ${params.name}. Data anda sudah kami simpan`);
-    });
+    arrayFile = loadContact();
+    objectToPush = {
+        nama: params.name, email: params.email, notelp: params.nohp
+    }
+    arrayFile.push(objectToPush);
+    setContact(arrayFile);
 }
 
-module.exports = { loadContact , addContact }
+const setContact = (params) => {
+    fs.writeFileSync(contactPath, JSON.stringify(params));
+}
+
+module.exports = { loadContact , addContact , setContact}
