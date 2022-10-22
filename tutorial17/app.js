@@ -35,7 +35,7 @@ app.get('/', (req, res) => {
         title: 'Index',
         layout: 'layouts/main-layout'
     });
-})
+});
 
 app.get('/about', (req, res) => {
     res.render('about', {

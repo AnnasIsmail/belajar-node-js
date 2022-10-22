@@ -1,0 +1,24 @@
+<% if (contact) { %>
+  <div class="container">
+    <div class="row">
+        <div class="cold-md-8 mt-4">
+            <div class="card" style="width: 100%">
+              <div class="card-body">
+                  <h5 class="card-title"><%= contact.nama %> </h5>
+                  <p class="card-text mb-0">Email: <%= contact.email %> </p>
+                  <p class="card-text">Nomor Telepon: <%= contact.notelp %> </p>
+                  <a href="/contact" class="btn btn-success" >Kembali </a>
+                  <a href="/contact/edit/<%= contact.email %>" class="btn btn-warning">Edit</a>
+                  <a href="/contact/delete/<%= contact.email %>" class="btn btn-danger">Delete</a>
+                  <br>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>
+<% } else { %>
+  <div class="alert alert-danger mt-3" role="alert">
+    Data Tidak Terdaftar <a href="/contact" class="alert-link">< Kembali</a>
+  </div>
+<% } %>
+
