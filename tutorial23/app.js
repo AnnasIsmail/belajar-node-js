@@ -3,10 +3,10 @@ const expressLayouts = require('express-ejs-layouts')
 const app = express()
 const morgan = require('morgan');
 const port = 3000
-const { loadContact , addContact , setContact } = require('./utils/contacts');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
+const methodOverride = require('method-override');
 
 const contact = require('./model/contact');
 require('./utils/db');
@@ -28,6 +28,7 @@ app.use(session({
 
 
 app.use(flash());
+app.use(methodOverride('_method'));
 
 app.listen(port, ()=> {
     console.log(`Success Running Node App`);
@@ -59,6 +60,77 @@ app.get('/about', (req, res) => {
         msgInfo: req.flash('msgInfo'),
     });
   });
+  
+  app.post('/contact', async (req, res) => {
+    const contacts = await contact.findOne({email: req.body.email});
+    console.log(contacts)
+    if(contacts){
+      res.render('add-contact', {
+        title: 'Contact',
+        layout: 'layouts/main-layout',
+        error: 'Email Sudah Digunakan!'
+    });
+    }else{
+        contact.insertMany({
+                nama: req.body.name,
+                notelp: req.body.nohp,
+                email: req.body.email
+            }, (err , result)=>{
+            req.flash('msg', `Thank you, contact on behalf of ${req.body.name} Success added`);
+            res.redirect('/contact');
+        }) ;
+    }
+});
+
+// app.get('/contact/delete/:email', (req, res) => {
+//     contact.deleteOne({email: req.params.email}, result =>{
+//         req.flash('msgInfo', `Contact on behalf of ${req.params.email} Success deleted`);
+//         res.redirect('/contact');
+//     });
+
+//   });
+
+app.delete('/contact', (req,res) => {
+    contact.deleteOne({email: req.body.email}, result =>{
+        req.flash('msgInfo', `Contact on behalf of ${req.body.email} Success deleted`);
+        res.redirect('/contact');
+    });
+});
+
+app.get('/contact/edit/:email', async(req, res) => {
+
+    const contacts = await contact.findOne({email: req.params.email});
+
+    res.render('edit-contact', {
+      title: 'Contact',
+      layout: 'layouts/main-layout',
+      contact: contacts,
+      error: false
+    });
+
+  });
+
+  app.put('/contact', async (req, res) => {
+
+    contact.updateOne({_id: req.body._id},
+        {
+            nama: req.body.name, email: req.body.email, notelp: req.body.nohp
+        }
+        ).then(result => {
+            req.flash('msgInfo', `Contact on behalf of ${req.body.name} Success edited`);
+            res.redirect('/contact');
+        })
+
+  });
+
+  app.get('/contact/add', (req, res) => {
+
+    res.render('add-contact', {
+        title: 'Contact',
+        layout: 'layouts/main-layout',
+        error: false
+    });
+  })
 
   app.get('/contact/:nama', async (req, res) => {
 
